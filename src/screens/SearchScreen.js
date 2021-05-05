@@ -7,6 +7,13 @@ import useResults from '../hooks/useResults';
 const SearchScreen = () => {
   const [term, setTerm] = useState('');
   const [searchApi, results, errorMessage] = useResults();
+  const filterResultsByPrice = ( price ) => {
+    console.log(price);
+    return results.filter( result =>
+      {
+        return result.price === price;
+      });
+  };
 
   return (
     <View>
@@ -17,9 +24,11 @@ const SearchScreen = () => {
       />
       {errorMessage ? <Text>{errorMessage}</Text> : null}
       <Text>We have found {results.length} results</Text>
-      <ResultsList title='Low Cost'/>
-      <ResultsList title='Medium'/>
-      <ResultsList title='Expensive'/>
+      <Text>We have found {filterResultsByPrice('$').length} results</Text>
+
+      <ResultsList title='Low Cost' results={filterResultsByPrice('$')}    />
+      <ResultsList title='Medium' results={filterResultsByPrice('$$')}     />
+      <ResultsList title='Expensive' results={filterResultsByPrice('$$$')} />
     </View>
   );
 };
